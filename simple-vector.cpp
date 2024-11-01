@@ -392,16 +392,19 @@ int main() {
   SimpleVector1<int> sv1{1, 2, 3, 4};
   sv1 = sv1;
   std::cout << "sv1[0] = " << sv1[0] << "\n";
+  std::cout << "sv1[1] = " << sv1[1] << "\n";
+  std::cout << "sv1[2] = " << sv1[2] << "\n";
+  std::cout << "sv1[3] = " << sv1[3] << "\n";
 
-  SimpleVector2<int> sv2{1, 2, 3, 4};
-  sv2 = sv2;
-  std::cout << "sv2[0] = " << sv2[0] << "\n";
+  // SimpleVector2<int> sv2{1, 2, 3, 4};
+  // sv2 = sv2;
+  // std::cout << "sv2[0] = " << sv2[0] << "\n";
 
-  struct Nest {
-    SimpleVector2<Nest> nests;
-  };
+  // struct Nest {
+  //   SimpleVector2<Nest> nests;
+  // };
 
-  Nest nested{{Nest{{Nest{}, Nest{}}}}};
+  // Nest nested{{Nest{{Nest{}, Nest{}}}}};
 
-  nested = nested.nests[0];
+  // nested = nested.nests[0];
 }
