@@ -396,7 +396,7 @@ int main() {
   std::cout << "sv1[2] = " << sv1[2] << "\n";
   std::cout << "sv1[3] = " << sv1[3] << "\n";
 
-  // SimpleVector2<int> sv2{1, 2, 3, 4};
+  SimpleVector2<int> sv2{1, 2, 3, 4};
   // sv2 = sv2;
   // std::cout << "sv2[0] = " << sv2[0] << "\n";
 
