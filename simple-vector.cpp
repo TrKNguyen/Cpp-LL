@@ -387,7 +387,7 @@ public:
     return m_buffer + m_size;
   }
 };
-
+// wsl is 
 int main() {
   SimpleVector1<int> sv1{1, 2, 3, 4};
   sv1 = sv1;
@@ -397,8 +397,8 @@ int main() {
   std::cout << "sv1[3] = " << sv1[3] << "\n";
 
   SimpleVector2<int> sv2{1, 2, 3, 4};
-  // sv2 = sv2;
-  // std::cout << "sv2[0] = " << sv2[0] << "\n";
+  sv2 = sv2;
+  std::cout << "sv2[0] = " << sv2[0] << "\n";
 
   // struct Nest {
   //   SimpleVector2<Nest> nests;
