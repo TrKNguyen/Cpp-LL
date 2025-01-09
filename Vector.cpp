@@ -2,7 +2,7 @@
 using namespace std; 
 
 /// some note: we can replace new by allocator, then call allocate, construct for new and 
-
+/// Very important: Value categories are given to expressions and not types!
 template<typename T> 
 class Vector { 
 private: 
@@ -13,18 +13,30 @@ private:
 public:
   // constructor 
   Vector() {
-    this->m_value = new T[1]; 
-    this->m_size = 0;
-    this->m_cap = 1;
+    m_value = new T[1]; 
+    m_size = 0;
+    m_cap = 1;
   }
   // constructor with size 
   Vector(int size) {
-    this->m_value = new T[size]; 
-    this->m_size = size;
-    this->m_cap = size;
+    cout <<"size constructor" <<" check" << endl; 
+    m_value = new T[size]; 
+    m_size = size;
+    m_cap = size;
   }
+  // constructor with std::initializer_list
+  // Vector(std::initializer_list<T> init_list) {
+  //   cout <<"initialize list" << " check" << endl; 
+  //   m_size = init_list.size(); 
+  //   m_cap = init_list.size();
+  //   m_value = new T[m_size]; 
+  //   for (int i = 0; i < m_size; i++) {
+  //     m_value[i] = init_list.begin()[i];
+  //   }
+  // }
   // copy constructor 
   Vector(const Vector<T>& o) {
+    cout <<"copy constructor" <<" check" << endl;
     this->m_size = o.m_size; 
     this->m_cap = o.m_cap;
     this->m_value = new T[this->m_cap];
@@ -34,21 +46,24 @@ public:
   }
   // copy assignment 
   Vector<T>& operator=(const Vector<T>& o) {
+    cout <<"copy assignment" << " check" << endl;
     Vector<T> temp = Vector(o);
     this->swap(temp);
     return *this;
   }
   // move constructor 
   Vector(Vector<T>&& o) {
-    this->m_size = o.size; 
-    this->m_cap = o.m_cap; 
-    swap(this->m_value, o.m_value);
+    cout <<"move constructor" << " check" << endl;
+    std::swap(this->m_size, o.m_size); 
+    std::swap(this->m_cap, o.m_cap); 
+    std::swap(this->m_value, o.m_value);
   }
   // move assignment 
   Vector<T>& operator=(Vector<T>&& o) {
-    this->m_size = o.size; 
-    this->m_cap = o.m_cap; 
-    swap(this->m_value, o.m_value);
+    cout <<"move assignment" << " check" << endl;
+    auto moved = Vector<T>(std::move(o));
+    this->swap(moved); 
+    return *this;
   }
   // destructor 
   ~Vector<T>() {
@@ -63,23 +78,30 @@ public:
     if (new_cap <= m_cap) return;
     m_cap = m_cap * 2; 
     T* temp = new T[m_cap];
-    // memcpy(temp, this->m_value, this->m_size);
     for (int i = 0; i < this->m_size; i++) {
       temp[i] = this->m_value[i];
     }
     delete[] m_value;
     m_value = temp;
   }
-  void push_back(const T& n_elem) {
+  template<typename... Args> 
+  void emplace_back(Args... args) {
     if (m_size == m_cap) {
       reserve(2 * m_cap);
     }
-    m_value[m_size] = n_elem; 
+    m_value[m_size] = T(std::forward<Args>(args)...); 
+    m_size++;
+  }
+  void push_back(T n_elem) {
+    if (m_size == m_cap) {
+      reserve(2 * m_cap);
+    }
+    m_value[m_size] = std::move(n_elem); 
     m_size++;
   }
   void pop_back() {
     if (m_size == 0) {
-      throw out_of_range("Cannot popback empty vector");
+      throw out_of_range("Cannot popback the empty vector");
     }
     m_size--;
   }
@@ -89,7 +111,12 @@ public:
     }
     return m_value[index];
   }
-
+  const T& operator[](int index) const {
+    if (index < 0 || index >= m_size) {
+      throw out_of_range("Index out of bound");
+    }
+    return m_value[index];
+  }
   int size() const noexcept {
     return this->m_size;
   }
@@ -104,6 +131,12 @@ public:
     }
     os << "]";
     return os;
+  }
+  friend void swap(vector<T>& a, vector<T>& b) {
+    // std::swap(a.m_value, b.m_value); 
+    // std::swap(a.m_size, b.m_size); 
+    // std::swap(a.m_cap, b.m_cap);
+    a.swap(b);
   }
   using iterator = T*;
   using const_iterator = const T*; 
@@ -126,13 +159,17 @@ public:
 int main() {
   // vector<int> vt1; 
   // cout << vt1.size() <<" " << vt1.capacity() << endl; 
-  Vector<int> vt; 
-  cout << vt.size() <<" " << vt.capacity() << endl;
-  vt.push_back(0); 
-  vt.push_back(10); 
-  vt.push_back(-100);
-  int size = vt.size(); 
-  cout << vt << endl;
-  Vector<int> vt1(vt); 
-  cout << vt1 << endl;
+  // Vector<int> vt; 
+  // cout << vt.size() <<" " << vt.capacity() << endl;
+  // vt.push_back(0); 
+  // vt.push_back(10); 
+  // vt.push_back(-100);
+  // int size = vt.size(); 
+  // cout << vt << endl;
+  // Vector<int> vt1(vt); 
+  // cout << vt1 << endl;
+  // Vector<int> a{1, 2, 3, 4};
+  Vector<int> b(3);
+  Vector<int> vt(std::move(b));
+
 } 
