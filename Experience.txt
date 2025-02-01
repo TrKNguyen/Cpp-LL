@@ -22,3 +22,9 @@ Reference Collapsing Rules (C++11):
 3. T& && => T&
 4. T&& && => T&&
 
+OOP in C++: 
++) Abstraction 
++) Encapsulation 
++) Polymorphism 
++) Inheritance
+
