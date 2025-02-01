@@ -2,3 +2,23 @@ set and map: self-balancing binary tree(Red Black Tree)
 unordered_set and unordered map: hash table 
 TCP: tranmission control proctocol: 
 UDP: user datagram proctocol 
+
+passing by value
+passing by reference 
+then when I pass a lvalue/rvalue/lvalue_reference/rvalue_reference/  which function they will call 
+
+Note: only can overload with function having rvalue reference and lvalue reference (not function having value) because: 
++) function having lvalue reference and function having value both match lvalue as parameter
++) function having rvalue reference and function having value both match rvalue as parameter
+
+
+Universal References and Reference Collapsing
+Universal References
+A universal reference occurs in a template function when type is T&&, and T itself can be lvalue reference or rvalue reference
+
+Reference Collapsing Rules (C++11):
+1. T& & => T&
+2. T&& & => T&
+3. T& && => T&
+4. T&& && => T&&
+
