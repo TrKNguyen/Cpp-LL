@@ -51,7 +51,49 @@ struct TestWith4bytesHave8bytes {
 // 24 bytes 
 // => data alignment: align with the largest data type inside the struct 
 
-int main() {
+struct Example {
+    char testChar;
+    int b;
+    long long c;
+};
+struct Example1 {
+    int b;
+    long long c;
+    char testChar;
+};
+struct Example2 { // size = 24 
+    int b;
+    long long c;
+    char testChar; 
+};
+
+struct Example3 { // size = 24;
+    int b;
+    long long c;
+    char testChar;
+    char testChar1;
+    char testChar2;
+    int testInt;
+};
+
+struct Example4 { // size = 8 
+    char testChar;
+    short testShort; 
+    int testInt;
+}
+// 3 things to remember when talking about Memory Padding
+// size 
+// alignment 
+// padding 
+// starting address should always mutiple of min(alignment value, 4 bytes) 
+// long long start from 8 bytes 
+// int/char start from 4 bytes
+// alignment do: 
+// 1. make sure the starting address of each data type is a multiple of its size
+// 2. make sure the size of each data type is a multiple of its size
+
+
+int main() {    
     cout << "Size of MyStruct1: " << sizeof(MyStruct1) << " bytes\n";
     cout << "Size of MyStruct2: " << sizeof(MyStruct2) << " bytes\n";
     cout << "Size of MyStruct3: " << sizeof(MyStruct3) << " bytes\n";
