@@ -75,12 +75,11 @@ struct Example3 { // size = 24;
     char testChar2;
     int testInt;
 };
-
 struct Example4 { // size = 8 
     char testChar;
     short testShort; 
     int testInt;
-}
+};
 // 3 things to remember when talking about Memory Padding
 // size 
 // alignment 
