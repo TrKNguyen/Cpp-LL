@@ -30,3 +30,26 @@ Inherited Function Access Rules:
 
 - Are not inherited by the derived class, regardless of the inheritance access specifier. These functions are private to the base class.
 */
+
+#include <iostream>
+using namespace std;
+
+class Base {
+public:
+    void Print() {
+        std::cout << "Base" << std::endl;
+    }
+};
+
+class Derived : public Base {
+public:
+    void Print() {
+        std::cout << "Derived" << std::endl;
+    }
+};
+
+int main() {
+    Base *b = new Derived();
+    b->Print();
+    return 0;
+}

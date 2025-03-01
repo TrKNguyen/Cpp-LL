@@ -58,7 +58,7 @@ int main() {
     TestPassByValuePassByReference.cpp(35, 5): function "dosth(std::string &a)" (declared at line 10)
     TestPassByValuePassByReference.cpp(35, 5): argument types are: (std::string)
     */
-    dosth("abc");
+    dosth("abc"); // rvalue
     /*
     more than one instance of overloaded function "dosth" matches the argument list:C/C++(308)
     TestPassByValuePassByReference.cpp(42, 5): function "dosth(std::string a)" (declared at line 5)

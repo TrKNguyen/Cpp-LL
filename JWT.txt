@@ -1,0 +1,39 @@
+High-Level JWT Authentication Workflow
+Step 1: User Submits Credentials
+A user (or client application) sends login credentials (username and password) to the server via a secure channel (HTTPS).
+The server verifies these credentials against a user database (e.g., hashing the password, comparing to stored hash).
+Step 2: Server Generates a JWT
+If the credentials are valid, the server creates a JWT that includes claims in the payload. Common claims include:
+sub: subject (often the user ID or username),
+exp: expiration time,
+iat: issued at time,
+Custom claims: roles, permissions, or any other needed data.
+The server signs the JWT with a secret key (for symmetric algorithms like HS256) or a private key (for asymmetric algorithms like RS256).
+The server returns the signed JWT to the client in the response (often in JSON).
+Step 3: Client Stores the JWT
+The client (usually a browser or mobile app) receives the token.
+The client stores it in:
+Local Storage (e.g., window.localStorage in a browser),
+
+Session Storage,
+
+HTTP-only Cookies (recommended for mitigating XSS attacks).
+
+Note: Storing JWTs in local or session storage is more vulnerable to XSS attacks; storing in HTTP-only cookies can help reduce that risk but requires attention to CSRF protection.
+
+Step 4: Client Sends the JWT on Subsequent Requests
+For every subsequent request to protected endpoints, the client includes the JWT in an Authorization header (commonly as Authorization: Bearer <JWT>) or in a cookie.
+This allows the server to identify the user or client without maintaining server-side session state.
+Step 5: Server Validates and Decodes the JWT
+The server receives the JWT from the client.
+The server verifies:
+Signature: using the shared secret (HS256) or the public key (RS256).
+Expiration: ensures the token is still valid (e.g., exp claim not past current time).
+Integrity: checks that no one has tampered with the payload.
+If verification succeeds, the server trusts the claims in the payload (e.g., user ID, role).
+The server executes the requested operation (if the user has the right permissions) and returns a response.
+Step 6: Token Expiration and Renewal
+Typically, JWTs have a limited lifetime (e.g., 15 minutes, 1 hour).
+When the token expires, the user must re-authenticate or use a refresh token flow:
+The client can send a refresh token to get a new access token without prompting for credentials again.
+Or the client must log in again if the refresh token is also expired or invalid.
