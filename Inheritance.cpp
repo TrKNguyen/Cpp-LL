@@ -36,12 +36,26 @@ using namespace std;
 
 class Base {
 public:
-    void Print() {
+    virtual void Print() {
         std::cout << "Base" << std::endl;
     }
 };
 
 class Derived : public Base {
+public:
+    void Print() override { // not necessary to add override actually 
+        std::cout << "Derived" << std::endl;
+    }
+};
+
+class BaseNonVirtual {
+public:
+    void Print() {
+        std::cout << "Base" << std::endl;
+    }
+};
+    
+class DerivedNonVirtual : public BaseNonVirtual {
 public:
     void Print() {
         std::cout << "Derived" << std::endl;
@@ -49,7 +63,9 @@ public:
 };
 
 int main() {
-    Base *b = new Derived();
-    b->Print();
+    Base *b = new Derived(); 
+    b->Print(); // derived 
+    BaseNonVirtual *bNonVirtual = new DerivedNonVirtual(); 
+    bNonVirtual->Print(); // base
     return 0;
 }
