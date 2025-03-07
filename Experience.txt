@@ -1,3 +1,5 @@
+when change the name of repo, need to git add -f ., to kind of refresh and update or sth
+
 set and map: self-balancing binary tree(Red Black Tree) 
 unordered_set and unordered map: hash table 
 TCP: tranmission control proctocol: 
@@ -27,4 +29,6 @@ OOP in C++:
 +) Encapsulation 
 +) Polymorphism 
 +) Inheritance
+
+
 
