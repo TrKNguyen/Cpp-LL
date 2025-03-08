@@ -1,4 +1,7 @@
-when change the name of repo, need to git add -f ., to kind of refresh and update or sth
+when change the name of repo, need to git add -f ., to kind of refresh and update or sth, 
+hmm actually -f to force staging the file that was ignored by gitignore
+seem like after update the repo name, the gitignore behave strangely, it include * 
+in gitignore :), then every file I write were'e been staged! 
 
 set and map: self-balancing binary tree(Red Black Tree) 
 unordered_set and unordered map: hash table 
