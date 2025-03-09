@@ -91,6 +91,44 @@ struct Example4 { // size = 8
 // 1. make sure the starting address of each data type is a multiple of its size
 // 2. make sure the size of each data type is a multiple of its size
 
+// Advantage: Enhance the performance, if we do SIMD operation on 
+// the array of float, we adding two large arrays of float. Each
+// float is 4 byes, the processor if optimized for 16-byte memory 
+// accesses for SIMD operations
+// Without the proper alignment if the starting address of the array 
+// isn't aligned to 16-byte boundary, accessing elements of the array 
+// could cause the CPU to perform additional memory loads or stores, 
+// potentially resulting in multiple cycles per element fetch, slowing 
+// down the program 
+// Misalignment: Each load and store operation might take 2 or more cycles
+
+// Here's a deeper look at the steps involved when dealing with misaligned data:
+
+// Accessing Misaligned Data: When data is misaligned, say a 128-bit
+// chunk that begins at an address which is not a multiple of 16 
+// (e.g., at address 0x123), the CPU needs to load the data in pieces.
+
+// Scenario 1: The first 4 bytes (out of the 16 bytes of the 128-bit
+// chunk) might be in one cache line, while the next 4 bytes could 
+// be in a different cache line. So, the CPU will need to fetch the
+// first cache line, then the second cache line, to access all 16 bytes.
+// Scenario 2: Even if only part of the chunk crosses a cache line,
+// the CPU may have to perform a two-step fetch from two different
+// memory locations, which causes extra memory fetch cycles
+
+// Multiple Cycles for a Single Access: On modern CPUs, aligned
+//  accesses can load all data at once (in a single 128-bit fetch), 
+// while misaligned accesses may require multiple fetches. This
+// could involve:
+// Fetching the first portion of the data from the first cache line.
+// Fetching the second portion from the next cache line or from a
+// different memory page.
+
+
+// Extra Cycles for Buffering:  CPUs may also need to buffer or 
+// reorganize the data internally to assemble it properly. This
+//  buffering or handling of misaligned data takes extra cycles,
+// especially when the data spans multiple cache lines.
 
 int main() {    
     cout << "Size of MyStruct1: " << sizeof(MyStruct1) << " bytes\n";
